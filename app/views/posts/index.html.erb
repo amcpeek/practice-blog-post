@@ -1,6 +1,77 @@
 <div class="max-w-4xl mx-auto">
   <h1 class="text-4xl font-bold text-gray-800 mb-8">Riverside High School Blog</h1>
 
+  <!-- Filter Section -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <%= form_with url: root_path, method: :get, class: "space-y-4" do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Category Filter -->
+        <div>
+          <%= label_tag :category_id, "Filter by Category", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= select_tag :category_id,
+              options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+              prompt: "All Categories",
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
+        <!-- Author Filter -->
+        <div>
+          <%= label_tag :author_id, "Filter by Author", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= select_tag :author_id,
+              options_from_collection_for_select(@authors, :id, :full_name, params[:author_id]),
+              prompt: "All Authors",
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
+        <!-- Sort Order -->
+        <div>
+          <%= label_tag :sort, "Sort Order", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= select_tag :sort,
+              options_for_select([["Newest First", "desc"], ["Oldest First", "asc"]], params[:sort] || "desc"),
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+      </div>
+
+      <div class="flex space-x-3">
+        <%= submit_tag "Apply Filters", class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700" %>
+        <%= link_to "Clear All", root_path, class: "bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400" %>
+      </div>
+    <% end %>
+
+    <!-- Active Filters Display -->
+    <% if params[:category_id].present? || params[:author_id].present? || params[:sort] == "asc" %>
+      <div class="mt-4 pt-4 border-t border-gray-200">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="text-sm font-medium text-gray-700">Active filters:</span>
+
+          <% if params[:category_id].present? %>
+            <% category = @categories.find_by(id: params[:category_id]) %>
+            <span class="inline-flex items-center bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+              Category: <%= category&.name %>
+              <%= link_to "×", root_path(author_id: params[:author_id], sort: params[:sort]), class: "ml-2 text-blue-600 hover:text-blue-800 font-bold" %>
+            </span>
+          <% end %>
+
+          <% if params[:author_id].present? %>
+            <% author = @authors.find_by(id: params[:author_id]) %>
+            <span class="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
+              Author: <%= author&.full_name %>
+              <%= link_to "×", root_path(category_id: params[:category_id], sort: params[:sort]), class: "ml-2 text-green-600 hover:text-green-800 font-bold" %>
+            </span>
+          <% end %>
+
+          <% if params[:sort] == "asc" %>
+            <span class="inline-flex items-center bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full">
+              Sort: Oldest First
+              <%= link_to "×", root_path(category_id: params[:category_id], author_id: params[:author_id]), class: "ml-2 text-purple-600 hover:text-purple-800 font-bold" %>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Posts List -->
   <% if @posts.any? %>
     <div class="space-y-6">
       <% @posts.each do |post| %>
@@ -14,6 +85,16 @@
                     <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Draft</span>
                   <% end %>
                 </h2>
+              <% end %>
+
+              <!-- Categories Display -->
+              <% if post.categories.any? %>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <% post.categories.each do |category| %>
+                    <%= link_to category.name, root_path(category_id: category.id),
+                        class: "text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200" %>
+                  <% end %>
+                </div>
               <% end %>
 
               <div class="text-gray-600 text-sm mb-3">
@@ -40,10 +121,8 @@
     </div>
   <% else %>
     <div class="bg-white rounded-lg shadow-md p-12 text-center">
-      <p class="text-gray-600 text-lg mb-4">No posts yet.</p>
-      <% if logged_in? %>
-        <%= link_to "Write the first post!", new_post_path, class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 inline-block" %>
-      <% end %>
+      <p class="text-gray-600 text-lg mb-4">No posts found matching your filters.</p>
+      <%= link_to "Clear filters", root_path, class: "text-blue-600 hover:text-blue-800 underline" %>
     </div>
   <% end %>
 </div>

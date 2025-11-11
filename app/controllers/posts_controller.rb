@@ -4,16 +4,32 @@ class PostsController < ApplicationController
   before_action :authorize_author!, only: [ :edit, :update, :destroy ]
 
   def index
-    # Show all published posts, plus current user's unpublished posts
+    # Base query: show all published posts, plus current user's unpublished posts
     @posts = if logged_in?
-      Post.includes(:author)
+      Post.includes(:author, :categories)
           .where("published_at IS NOT NULL OR author_id = ?", current_user.id)
-          .order(created_at: :desc)
     else
-      Post.includes(:author)
+      Post.includes(:author, :categories)
           .where.not(published_at: nil)
-          .order(created_at: :desc)
     end
+
+    # Filter by category
+    if params[:category_id].present?
+      @posts = @posts.joins(:categories).where(categories: { id: params[:category_id] })
+    end
+
+    # Filter by author
+    if params[:author_id].present?
+      @posts = @posts.where(author_id: params[:author_id])
+    end
+
+    # Sort order (default: descending/newest first)
+    sort_order = params[:sort] == "asc" ? :asc : :desc
+    @posts = @posts.order(created_at: sort_order)
+
+    # Load all categories and authors for filter dropdowns
+    @categories = Category.order(:name)
+    @authors = User.order(:first_name, :last_name)
   end
 
   def show
@@ -26,6 +42,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @categories = Category.order(:name)
   end
 
   def create
@@ -35,11 +52,13 @@ class PostsController < ApplicationController
       flash[:notice] = "Post created successfully!"
       redirect_to @post
     else
+      @categories = Category.order(:name)
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    @categories = Category.order(:name)
   end
 
   def update
@@ -47,6 +66,7 @@ class PostsController < ApplicationController
       flash[:notice] = "Post updated successfully!"
       redirect_to @post
     else
+      @categories = Category.order(:name)
       render :edit, status: :unprocessable_entity
     end
   end
@@ -68,6 +88,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :published_at)
+    params.require(:post).permit(:title, :body, :published_at, category_ids: [])
   end
 end
