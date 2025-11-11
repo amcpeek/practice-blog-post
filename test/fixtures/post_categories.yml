@@ -1,0 +1,49 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+homecoming_events:
+  post: homecoming
+  category: events
+
+homecoming_community:
+  post: homecoming
+  category: community
+
+basketball_sports:
+  post: basketball
+  category: sports
+
+basketball_events:
+  post: basketball
+  category: events
+
+spring_play_arts:
+  post: spring_play
+  category: arts_culture
+
+spring_play_events:
+  post: spring_play
+  category: events
+
+graduation_events:
+  post: graduation
+  category: events
+
+graduation_academics:
+  post: graduation
+  category: academics
+
+soccer_sports:
+  post: soccer_draft
+  category: sports
+
+talent_show_arts:
+  post: talent_show_draft
+  category: arts_culture
+
+talent_show_events:
+  post: talent_show_draft
+  category: events
+
+talent_show_community:
+  post: talent_show_draft
+  category: community

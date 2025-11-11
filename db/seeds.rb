@@ -1,9 +1,20 @@
 # Clear existing data
 Comment.destroy_all
+PostCategory.destroy_all
 Post.destroy_all
+Category.destroy_all
 User.destroy_all
 
 puts "🏫 Creating Riverside High School Blog..."
+
+# Create categories
+sports = Category.create!(name: "Sports")
+arts_culture = Category.create!(name: "Arts & Culture")
+events = Category.create!(name: "Events")
+academics = Category.create!(name: "Academics")
+community = Category.create!(name: "Community")
+
+puts "✅ Created #{Category.count} categories"
 
 # Create users (faculty and students)
 principal = User.create!(
@@ -49,7 +60,8 @@ Dress code: Semi-formal attire. The gym will be transformed into a celestial won
 
 Don't forget to vote for Homecoming King and Queen - voting closes November 10th. Let's make this a night to remember!",
   author: student_council,
-  published_at: 2.days.ago
+  published_at: 2.days.ago,
+  categories: [ events, community ]
 )
 
 basketball_post = Post.create!(
@@ -62,7 +74,8 @@ Senior captain Marcus Johnson led the team with 28 points, while sophomore sensa
 
 Bus transportation will be provided for students - sign up in the athletics office. Let's pack the arena and show our Wildcat pride! GO WILDCATS! 🏀",
   author: coach,
-  published_at: 5.days.ago
+  published_at: 5.days.ago,
+  categories: [ sports, events ]
 )
 
 spring_play_post = Post.create!(
@@ -84,7 +97,8 @@ Questions? Email Ms. Chen at echen@riversidehigh.edu or stop by room 204.
 
 Break a leg! 🌈",
   author: drama_teacher,
-  published_at: 1.week.ago
+  published_at: 1.week.ago,
+  categories: [ arts_culture, events ]
 )
 
 graduation_post = Post.create!(
@@ -109,7 +123,8 @@ Senior families - mark your calendars for the Senior Awards Night on May 20th an
 
 The countdown begins! We can't wait to see you walk across that stage. 🎓",
   author: principal,
-  published_at: 3.days.ago
+  published_at: 3.days.ago,
+  categories: [ events, academics ]
 )
 
 # Draft/Unpublished Posts
@@ -123,7 +138,8 @@ Coach Martinez says the team's defense has been outstanding this year, with goal
 
 Stay tuned for the official announcement!",
   author: coach,
-  published_at: nil
+  published_at: nil,
+  categories: [ sports ]
 )
 
 talent_show_draft = Post.create!(
@@ -136,7 +152,8 @@ Auditions will be held in early December. More information coming next week!
 
 Get your acts ready! 🌟",
   author: student_council,
-  published_at: nil
+  published_at: nil,
+  categories: [ arts_culture, events, community ]
 )
 
 puts "✅ Created #{Post.count} posts (#{Post.where.not(published_at: nil).count} published, #{Post.where(published_at: nil).count} drafts)"
