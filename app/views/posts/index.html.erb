@@ -1,0 +1,49 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-4xl font-bold text-gray-800 mb-8">Riverside High School Blog</h1>
+
+  <% if @posts.any? %>
+    <div class="space-y-6">
+      <% @posts.each do |post| %>
+        <article class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <%= link_to post, class: "block" do %>
+                <h2 class="text-2xl font-bold text-gray-800 hover:text-blue-600 mb-2">
+                  <%= post.title %>
+                  <% unless post.published? %>
+                    <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Draft</span>
+                  <% end %>
+                </h2>
+              <% end %>
+
+              <div class="text-gray-600 text-sm mb-3">
+                By <%= post.author.full_name %>
+                •
+                <%= post.published? ? post.published_at.strftime("%B %d, %Y") : "Unpublished" %>
+                •
+                <%= pluralize(post.comments.count, "comment") %>
+              </div>
+
+              <p class="text-gray-700 line-clamp-3">
+                <%= truncate(post.body, length: 200) %>
+              </p>
+            </div>
+
+            <% if logged_in? && post.author == current_user %>
+              <div class="ml-4 flex space-x-2">
+                <%= link_to "Edit", edit_post_path(post), class: "text-blue-600 hover:text-blue-800 text-sm" %>
+              </div>
+            <% end %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-md p-12 text-center">
+      <p class="text-gray-600 text-lg mb-4">No posts yet.</p>
+      <% if logged_in? %>
+        <%= link_to "Write the first post!", new_post_path, class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 inline-block" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
