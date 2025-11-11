@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+homecoming_comment_one:
+  body: Can't wait! Already got my dress! 💃
+  post: homecoming
+  author: yearbook_editor
+
+homecoming_comment_two:
+  body: The student council has done an amazing job organizing this. So excited to see the gym transformation!
+  post: homecoming
+  author: drama_teacher
+
+basketball_comment_one:
+  body: SO PROUD of our team! I'll definitely be on that bus to State!
+  post: basketball
+  author: student_council
+
+basketball_comment_two:
+  body: Incredible game on Friday! The energy in that gym was electric. Let's go Wildcats!
+  post: basketball
+  author: principal
+
+spring_play_comment:
+  body: I've always wanted to be Dorothy! See everyone at auditions!
+  post: spring_play
+  author: yearbook_editor
+
+graduation_comment:
+  body: I can't believe graduation is already being planned. Senior year is flying by! 😭
+  post: graduation
+  author: yearbook_editor

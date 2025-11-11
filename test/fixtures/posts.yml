@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+homecoming:
+  title: Homecoming Dance 2025: A Night Under the Stars
+  body: Get ready for the most magical night of the year! This year's homecoming dance theme is 'Starlight Serenade' and will take place on November 15th.
+  published_at: <%= 2.days.ago %>
+  author: student_council
+
+basketball:
+  title: Riverside Wildcats Heading to State Championships!
+  body: What an incredible season! After last Friday's nail-biting 78-76 victory against Lincoln High, our Varsity Basketball team has secured their spot in the State Championships!
+  published_at: <%= 5.days.ago %>
+  author: coach
+
+spring_play:
+  title: Auditions Open for Spring Musical - The Wizard of Oz
+  body: Follow the yellow brick road to the auditorium! Riverside Drama Department is thrilled to announce that our spring musical will be The Wizard of Oz!
+  published_at: <%= 1.week.ago %>
+  author: drama_teacher
+
+graduation:
+  title: Senior Spotlight - Graduation Ceremony Details Announced
+  body: Congratulations to the Class of 2026! We are so proud of you and can't wait to celebrate your achievements.
+  published_at: <%= 3.days.ago %>
+  author: principal
+
+soccer_draft:
+  title: Girls Soccer Team Prepares for Regional Tournament
+  body: Our Lady Wildcats soccer team has been training hard for the upcoming regional tournament. After an impressive 12-3 season, they're ready to take on the competition.
+  published_at: nil
+  author: coach
+
+talent_show_draft:
+  title: Winter Talent Show - Save the Date!
+  body: The annual Riverside Winter Talent Show is coming in December! We're still finalizing the date and details.
+  published_at: nil
+  author: student_council

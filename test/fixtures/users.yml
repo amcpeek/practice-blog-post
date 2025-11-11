@@ -1,0 +1,26 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+principal:
+  first_name: Sarah
+  last_name: Martinez
+  email: smartinez@riversidehigh.edu
+
+coach:
+  first_name: Mike
+  last_name: Thompson
+  email: mthompson@riversidehigh.edu
+
+drama_teacher:
+  first_name: Emily
+  last_name: Chen
+  email: echen@riversidehigh.edu
+
+student_council:
+  first_name: Jordan
+  last_name: Williams
+  email: jwilliams@student.riversidehigh.edu
+
+yearbook_editor:
+  first_name: Alex
+  last_name: Rodriguez
+  email: arodriguez@student.riversidehigh.edu
